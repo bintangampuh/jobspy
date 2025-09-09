@@ -1,9 +1,7 @@
-# database.py (REVISED)
-
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base # <== Perbaikan warning
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 load_dotenv()
 
@@ -15,14 +13,12 @@ DATABASE_URL = (
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base() # Base ini akan diimpor oleh models.py dan create_tables.py
+Base = declarative_base()
 
 def get_db():
-    """Fungsi helper untuk dependency injection session database."""
+    """Helper function for database session dependency injection."""
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
-# Blok if __name__ == "__main__" dan fungsi create_all_tables() dihapus dari sini.

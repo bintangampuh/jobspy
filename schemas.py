@@ -1,7 +1,6 @@
-# schemas.py
-
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from typing import List, Optional
+from datetime import datetime
 
 class BlockCompanyRequest(BaseModel):
     entity_name: str
@@ -14,3 +13,25 @@ class JobMatchRequest(BaseModel):
     match_status: str
 
     model_config = ConfigDict(from_attributes=True)
+
+class Job(BaseModel):
+    id: int
+    title: str
+    company_name: str
+    location: Optional[str] = None
+    job_url: str
+    source: str
+    is_imported_to_ats: bool
+
+    model_config = ConfigDict(from_attributes=True)
+
+class PaginatedJobs(BaseModel):
+    total: int
+    page: int
+    limit: int
+    data: List[Job]
+
+class DashboardStats(BaseModel):
+    total_jobs: int
+    new_jobs_last_24h: int
+    deleted_jobs_last_24h: int
